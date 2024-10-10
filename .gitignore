@@ -1,0 +1,60 @@
+# Flutter related
+build/
+.flutter/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock
+
+# iOS related
+ios/Flutter/.last_build_id
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/.symlinks/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.podspec.lock
+
+# Android related
+.android/
+app/*.iml
+gradle/
+local.properties
+*.log
+*.apk
+*.aar
+
+# Web related
+web/.dart_tool/
+
+# macOS related
+macos/Flutter/ephemeral/
+
+# Linux related
+linux/Flutter/ephemeral/
+
+# Windows related
+windows/Flutter/ephemeral/
+
+# Misc
+*.log
+*.lock
+*.tmp
+*.pyc
+*.pyo
+.DS_Store
+
+# VSCode
+.vscode/
+
+# IntelliJ related
+.idea/
+*.iml
+
+# Mac related
+*.hmap
+*.ipa
+*.xcuserdatad
+*.xcuserdata
