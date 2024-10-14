@@ -199,6 +199,8 @@ class _HomeScreenState extends State<HomeScreen>
               'Alitas', '50.65', 'images/alitas.jpg'), // Producto 2:
           _buildProductCard(
               'Snacks', '30.55', 'images/snacks.jpg'), // Producto 3:
+          _buildProductCard(
+              'Cervezas', '50.00', 'images/Cervezas.png'), // Producto 3:
         ],
       ),
     );
