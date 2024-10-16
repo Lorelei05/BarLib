@@ -1,3 +1,5 @@
+// home_screen.dart
+import 'package:app_bar_lib/screens/scan_screen.dart'; // Asegúrate de importar ScanScreen
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -7,30 +9,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  late TabController
-      _tabController; // Controlador para las pestañas en la barra de navegación inferior
+  late TabController _tabController;
 
   @override
   void initState() {
-    _tabController = TabController(
-        length: 4,
-        vsync: this,
-        initialIndex: 0); // Inicializa el controlador con 4 pestañas
-    _tabController.addListener(
-        _handleTableSelection); // Escucha los cambios en la selección de pestañas
+    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
+    _tabController.addListener(_handleTableSelection);
     super.initState();
   }
 
   _handleTableSelection() {
     if (_tabController.indexIsChanging) {
-      setState(() {}); // Redibuja la interfaz cuando se cambia la pestaña
+      setState(() {});
     }
   }
 
   @override
   void dispose() {
-    _tabController
-        .dispose(); // Limpia el controlador de pestañas cuando no se usa
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -38,31 +34,27 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red.shade900, // Color del AppBar
-        elevation: 0, // Sin sombra bajo el AppBar
+        backgroundColor: Colors.red.shade900,
+        elevation: 0,
         title: Row(
           children: [
             CircleAvatar(
-              backgroundImage:
-                  AssetImage('images/perfil.jpg'), // Imagen de perfil
-              radius: 20, // Tamaño del avatar
+              backgroundImage: AssetImage('images/perfil.jpg'),
+              radius: 20,
             ),
-            SizedBox(width: 10), // Espacio entre la imagen y el nombre
+            SizedBox(width: 10),
             Text(
-              'Lorelei Leon', // Nombre de usuario
-              style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white), // Estilo de texto del nombre
+              'Lorelei Leon',
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           ],
         ),
         actions: [
           IconButton(
             icon: ImageIcon(
-              AssetImage(
-                  'icons/icons8-mesa-de-restaurante-64.png'), // Icono de mesa
+              AssetImage('icons/icons8-mesa-de-restaurante-64.png'),
               size: 40,
-              color: Colors.black, // Color del icono
+              color: Colors.black,
             ),
             onPressed: () {
               // Acciones al presionar el icono de la mesa
@@ -75,33 +67,28 @@ class _HomeScreenState extends State<HomeScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Colors.red.shade900,
-              Colors.black
-            ], // Degradado de rojo a negro
+            colors: [Colors.red.shade900, Colors.black],
           ),
         ),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(
-                  16.0), // Margen alrededor del campo de búsqueda
+              padding: const EdgeInsets.all(16.0),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Buscar', // Texto en el campo de búsqueda
-                  prefixIcon:
-                      Icon(Icons.search), // Icono de lupa dentro del campo
+                  hintText: 'Buscar',
+                  prefixIcon: Icon(Icons.search),
                   filled: true,
-                  fillColor: Colors.white, // Fondo blanco del campo
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20), // Borde redondeado
-                    borderSide: BorderSide.none, // Sin borde visible
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
             ),
-            _buildCategorySection(), // Sección de categorías (Drinks, Cerveza, Snacks)
-            _buildProductList(), // Lista de productos
+            _buildCategorySection(),
+            _buildProductList(),
           ],
         ),
       ),
@@ -109,22 +96,17 @@ class _HomeScreenState extends State<HomeScreen>
         children: [
           BottomAppBar(
             child: TabBar(
-              controller:
-                  _tabController, // Controla las pestañas de navegación inferior
+              controller: _tabController,
               tabs: [
-                Tab(icon: Icon(Icons.home), text: 'Inicio'), // Pestaña Inicio
-                Tab(icon: Icon(Icons.search), text: 'Buscar'), // Pestaña Buscar
+                Tab(icon: Icon(Icons.home), text: 'Inicio'),
+                Tab(icon: Icon(Icons.search), text: 'Buscar'),
                 SizedBox(width: 60), // Espacio reservado para el icono QR
                 Tab(icon: Icon(Icons.local_offer), text: 'Ofertas'),
-                Tab(
-                    icon: Icon(Icons.shopping_cart),
-                    text: 'Pedido'), // Pestaña Pedido
+                Tab(icon: Icon(Icons.shopping_cart), text: 'Pedido'),
               ],
-              indicatorColor: Colors.red.shade900, // Color del indicador activo
-              labelColor:
-                  Colors.red.shade900, // Color de la pestaña seleccionada
-              unselectedLabelColor:
-                  Colors.grey, // Color de las pestañas no seleccionadas
+              indicatorColor: Colors.red.shade900,
+              labelColor: Colors.red.shade900,
+              unselectedLabelColor: Colors.grey,
             ),
           ),
           Positioned(
@@ -132,13 +114,15 @@ class _HomeScreenState extends State<HomeScreen>
             left: MediaQuery.of(context).size.width / 2 -
                 30, // Centra el icono QR
             child: FloatingActionButton(
-              backgroundColor:
-                  Colors.amber, // Color de fondo para resaltar el QR
+              backgroundColor: Colors.amber,
               onPressed: () {
-                // Acción para escanear el código QR
+                // Navega a la pantalla de escaneo
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ScanScreen()),
+                );
               },
-              child: Icon(Icons.qr_code_scanner,
-                  size: 40, color: Colors.black), // Icono QR
+              child: Icon(Icons.qr_code_scanner, size: 40, color: Colors.black),
             ),
           ),
         ],
@@ -146,108 +130,87 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  // Sección de categorías de productos
   Widget _buildCategorySection() {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 10.0), // Margen alrededor de las categorías
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
       child: Row(
-        mainAxisAlignment:
-            MainAxisAlignment.spaceAround, // Espacio uniforme entre los iconos
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildCategoryItem(
-              'Drinks', Icons.local_drink, Colors.pink), // Categoría "Drinks"
-          _buildCategoryItem(
-              'Cerveza', Icons.local_bar, Colors.amber), // Categoría "Cerveza"
-          _buildCategoryItem(
-              'Snacks', Icons.fastfood, Colors.orange), // Categoría "Snacks"
+          _buildCategoryItem('Drinks', Icons.local_drink, Colors.pink),
+          _buildCategoryItem('Cerveza', Icons.local_bar, Colors.amber),
+          _buildCategoryItem('Snacks', Icons.fastfood, Colors.orange),
         ],
       ),
     );
   }
 
-  // Widget para un ítem de categoría (icono + texto)
   Widget _buildCategoryItem(String label, IconData icon, Color color) {
     return Column(
       children: [
         CircleAvatar(
-          radius: 30, // Tamaño del círculo
-          backgroundColor: Colors.white, // Fondo blanco del círculo
-          child: Icon(icon, color: color, size: 30), // Icono dentro del círculo
+          radius: 30,
+          backgroundColor: Colors.white,
+          child: Icon(icon, color: color, size: 30),
         ),
-        SizedBox(height: 5), // Espacio entre el icono y el texto
+        SizedBox(height: 5),
         Text(
-          label, // Nombre de la categoría (Drinks, Cerveza, Snacks)
-          style:
-              TextStyle(color: Colors.white), // Estilo del texto de categoría
+          label,
+          style: TextStyle(color: Colors.white),
         ),
       ],
     );
   }
 
-  // Lista de productos
   Widget _buildProductList() {
     return Expanded(
-      // La lista ocupará todo el espacio disponible
       child: ListView(
-        padding: EdgeInsets.all(16.0), // Margen alrededor de los productos
+        padding: EdgeInsets.all(16.0),
         children: [
-          _buildProductCard(
-              'Bebidas', '22.85', 'images/bebidas.jpg'), // Producto 1:
-          _buildProductCard(
-              'Alitas', '50.65', 'images/alitas.jpg'), // Producto 2:
-          _buildProductCard(
-              'Snacks', '30.55', 'images/snacks.jpg'), // Producto 3:
+          _buildProductCard('Bebidas', '22.85', 'images/bebidas.jpg'),
+          _buildProductCard('Alitas', '50.65', 'images/alitas.jpg'),
+          _buildProductCard('Snacks', '30.55', 'images/snacks.jpg'),
         ],
       ),
     );
   }
 
-  // Tarjeta de un producto individual
   Widget _buildProductCard(String title, String price, String imagePath) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 10.0), // Espacio entre tarjetas
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0)), // Bordes redondeados
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start, // Alineación del contenido a la izquierda
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(15.0),
-              topRight: Radius.circular(
-                  15.0), // Bordes redondeados solo en la parte superior
+              topRight: Radius.circular(15.0),
             ),
             child: Image.asset(
-              imagePath, // Imagen del producto
-              fit: BoxFit
-                  .cover, // Ajusta la imagen para que cubra todo el espacio
-              width: double.infinity, // Ocupa todo el ancho disponible
-              height: 150, // Altura de la imagen
+              imagePath,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 150,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(
-                10.0), // Espacio interno alrededor del texto
+            padding: const EdgeInsets.all(10.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment
-                  .spaceBetween, // Texto y precio a los lados opuestos
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  title, // Nombre del producto
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold, // Texto en negrita
-                  ),
-                ),
-                Text(
-                  '\$$price', // Precio del producto
+                  title,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.red.shade900, // Color del texto del precio
+                  ),
+                ),
+                Text(
+                  '\$$price',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red.shade900,
                   ),
                 ),
               ],
