@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_bar_lib/screens/pedido.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,17 +14,27 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     _tabController = TabController(
-        length: 4,
+        length: 5, // Número de pestañas
         vsync: this,
-        initialIndex: 0); // Inicializa el controlador con 4 pestañas
+        initialIndex: 0); // Inicializa el controlador con 5 pestañas
     _tabController.addListener(
-        _handleTableSelection); // Escucha los cambios en la selección de pestañas
+        _handleTabSelection); // Escucha los cambios en la selección de pestañas
     super.initState();
   }
 
-  _handleTableSelection() {
+  void _handleTabSelection() {
     if (_tabController.indexIsChanging) {
-      setState(() {}); // Redibuja la interfaz cuando se cambia la pestaña
+      setState(() {
+        // Si la pestaña seleccionada es "Pedido", navega a la pantalla de Pedido
+        if (_tabController.index == 4) {
+          // Asumiendo que la pestaña de Pedido es la cuarta (índice 4)
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => PedidoScreen(), // Navega a PedidoScreen
+          ));
+          _tabController.index =
+              0; // Resetear el índice a 0 (Inicio) después de navegar
+        }
+      });
     }
   }
 
@@ -70,40 +81,55 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.red.shade900,
-              Colors.black
-            ], // Degradado de rojo a negro
-          ),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(
-                  16.0), // Margen alrededor del campo de búsqueda
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Buscar', // Texto en el campo de búsqueda
-                  prefixIcon:
-                      Icon(Icons.search), // Icono de lupa dentro del campo
-                  filled: true,
-                  fillColor: Colors.white, // Fondo blanco del campo
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20), // Borde redondeado
-                    borderSide: BorderSide.none, // Sin borde visible
-                  ),
-                ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          // Pantalla de Inicio con degradado y contenido
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.red.shade900,
+                  Colors.black,
+                ], // Degradado de rojo a negro
               ),
             ),
-            _buildCategorySection(), // Sección de categorías (Drinks, Cerveza, Snacks)
-            _buildProductList(), // Lista de productos
-          ],
-        ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(
+                      16.0), // Margen alrededor del campo de búsqueda
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Buscar', // Texto en el campo de búsqueda
+                      prefixIcon:
+                          Icon(Icons.search), // Icono de lupa dentro del campo
+                      filled: true,
+                      fillColor: const Color.fromARGB(
+                          255, 255, 255, 255), // Fondo blanco del campo
+                      border: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(20), // Borde redondeado
+                        borderSide: BorderSide.none, // Sin borde visible
+                      ),
+                    ),
+                  ),
+                ),
+                _buildCategorySection(), // Sección de categorías (Drinks, Cerveza, Snacks)
+                _buildProductList(), // Lista de productos
+              ],
+            ),
+          ),
+          // Pantalla de búsqueda (se mantiene igual)
+          Center(child: Text('Pantalla de Buscar')),
+          // Pantalla de Ofertas (se mantiene igual)
+          Center(child: Text('Pantalla de QR')),
+          // Pantalla de QR (puedes agregarla si la necesitas)
+          Center(child: Text('Pantalla de Ofertas')),
+          PedidoScreen(),
+        ],
       ),
       bottomNavigationBar: Stack(
         children: [
@@ -194,13 +220,13 @@ class _HomeScreenState extends State<HomeScreen>
         padding: EdgeInsets.all(16.0), // Margen alrededor de los productos
         children: [
           _buildProductCard(
-              'Bebidas', '22.85', 'images/bebidas.jpg'), // Producto 1:
+              'Bebidas', '22.85', 'images/bebidas.jpg'), // Producto 1
           _buildProductCard(
-              'Alitas', '50.65', 'images/alitas.jpg'), // Producto 2:
+              'Alitas', '50.65', 'images/alitas.jpg'), // Producto 2
           _buildProductCard(
-              'Snacks', '30.55', 'images/snacks.jpg'), // Producto 3:
+              'Snacks', '30.55', 'images/snacks.jpg'), // Producto 3
           _buildProductCard(
-              'Cervezas', '50.00', 'images/Cervezas.png'), // Producto 3:
+              'Cervezas', '50.00', 'images/Cervezas.png'), // Producto 4
         ],
       ),
     );
@@ -224,26 +250,25 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             child: Image.asset(
               imagePath, // Imagen del producto
-              fit: BoxFit
-                  .cover, // Ajusta la imagen para que cubra todo el espacio
-              width: double.infinity, // Ocupa todo el ancho disponible
+              fit: BoxFit.cover, // Ajuste de imagen
               height: 150, // Altura de la imagen
+              width: double.infinity, // Ancho completo
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(
-                10.0), // Espacio interno alrededor del texto
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment
-                  .spaceBetween, // Texto y precio a los lados opuestos
+                16.0), // Margen alrededor del texto del producto
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title, // Nombre del producto
+                  title, // Título del producto
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold, // Texto en negrita
                   ),
                 ),
+                SizedBox(height: 5), // Espacio entre el título y el precio
                 Text(
                   '\$$price', // Precio del producto
                   style: TextStyle(
