@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
 
 class PedidoScreen extends StatefulWidget {
+  const PedidoScreen({super.key});
+
   @override
   _PedidoScreenState createState() => _PedidoScreenState();
 }

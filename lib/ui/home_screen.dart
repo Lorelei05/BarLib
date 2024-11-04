@@ -1,7 +1,10 @@
+import 'package:barmo/scanner/qr_scanner.dart';
+import 'package:barmo/ui/pedido.dart';
 import 'package:flutter/material.dart';
-import 'package:app_bar_lib/screens/pedido.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -158,13 +161,14 @@ class _HomeScreenState extends State<HomeScreen>
             left: MediaQuery.of(context).size.width / 2 -
                 30, // Centra el icono QR
             child: FloatingActionButton(
-              backgroundColor:
-                  Colors.amber, // Color de fondo para resaltar el QR
+              backgroundColor: Colors.amber,
               onPressed: () {
-                // Acción para escanear el código QR
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const QrScanner()),
+                );
               },
-              child: Icon(Icons.qr_code_scanner,
-                  size: 40, color: Colors.black), // Icono QR
+              child: Icon(Icons.qr_code_scanner, size: 40, color: Colors.black),
             ),
           ),
         ],
