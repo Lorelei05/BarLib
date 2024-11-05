@@ -1,4 +1,4 @@
-package com.example.app_bar_lib
+package com.example.barmo
 
 import io.flutter.embedding.android.FlutterActivity
 
