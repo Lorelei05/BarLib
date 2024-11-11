@@ -1,3 +1,4 @@
+import 'package:barmo/conexion.dart/producto_screen.dart';
 import 'package:barmo/scanner/qr_scanner.dart';
 import 'package:barmo/ui/pedido.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen>
         if (_tabController.index == 4) {
           // Asumiendo que la pestaña de Pedido es la cuarta (índice 4)
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => PedidoScreen(), // Navega a PedidoScreen
+            builder: (context) => ProductosScreen(), // Navega a PedidoScreen
           ));
           _tabController.index =
               0; // Resetear el índice a 0 (Inicio) después de navegar
