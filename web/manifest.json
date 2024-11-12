@@ -1,6 +1,6 @@
 {
-    "name": "app_bar_lib",
-    "short_name": "app_bar_lib",
+    "name": "barmo",
+    "short_name": "barmo",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,60 +1,45 @@
-# Flutter related
-build/
-.flutter/
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-.packages
-pubspec.lock
+.pub-cache/
+.pub/
+/build/
 
-# iOS related
-ios/Flutter/.last_build_id
-ios/Pods/
-ios/Runner.xcworkspace/
-ios/Flutter/Flutter.framework
-ios/Flutter/Flutter.podspec
-ios/.symlinks/
-ios/Flutter/App.framework
-ios/Flutter/Flutter.podspec.lock
+# Symbolication related
+app.*.symbols
 
-# Android related
-.android/
-app/*.iml
-gradle/
-local.properties
-*.log
-*.apk
-*.aar
+# Obfuscation related
+app.*.map.json
 
-# Web related
-web/.dart_tool/
-
-# macOS related
-macos/Flutter/ephemeral/
-
-# Linux related
-linux/Flutter/ephemeral/
-
-# Windows related
-windows/Flutter/ephemeral/
-
-# Misc
-*.log
-*.lock
-*.tmp
-*.pyc
-*.pyo
-.DS_Store
-
-# VSCode
-.vscode/
-
-# IntelliJ related
-.idea/
-*.iml
-
-# Mac related
-*.hmap
-*.ipa
-*.xcuserdatad
-*.xcuserdata
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
