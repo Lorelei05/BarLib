@@ -3,6 +3,8 @@ import 'package:barmo/conexion.dart/mongo_service.dart';
 import 'package:barmo/conexion.dart/producto_model.dart';
 
 class ProductosScreen extends StatefulWidget {
+  const ProductosScreen({super.key});
+
   @override
   _ProductosScreenState createState() => _ProductosScreenState();
 }
