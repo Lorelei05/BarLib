@@ -1,4 +1,4 @@
-import 'package:barmo/ui/welcome_screen.dart';
+import 'package:barmo/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() async {

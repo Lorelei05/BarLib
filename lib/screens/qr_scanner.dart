@@ -69,7 +69,7 @@ class _QrScannerState extends State<QrScanner> {
                   onScanCompleted: (scannedCode) {
                     // Supongamos que la respuesta del QR es una mesa y piso
                     final tableInfo =
-                        scannedCode.split('_'); // Ejemplo: "Mesa 1|Piso 2"
+                        scannedCode.split('_'); // Ejemplo: "Mesa 1_Piso 2"
                     if (tableInfo.length >= 2) {
                       widget.onCodeScanned(
                         tableInfo[0], // Mesa

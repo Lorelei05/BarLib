@@ -1,17 +1,26 @@
-import 'package:barmo/ui/home_screen.dart';
+import 'package:barmo/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:barmo/conexion.dart/mongo_service.dart';
+import 'package:barmo/controllers/mongo_service.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   Future<void> _navigateToHome(BuildContext context) async {
-    await MongoService().connect();
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
+    print("Intentando conectar a MongoDB");
+    try {
+      await MongoService().connect();
+      print("Conexión exitosa. Navegando a HomeScreen");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } catch (e) {
+      print("Error al conectar con MongoDB: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al conectar con la base de datos: $e')),
+      );
+    }
   }
 
   @override
@@ -22,7 +31,7 @@ class WelcomeScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.black,
           image: DecorationImage(
-            image: AssetImage("images/bg.jpeg"),
+            image: AssetImage("assets/images/bg.jpeg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -30,7 +39,7 @@ class WelcomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Bienvenido",
+              "",
               style: GoogleFonts.pacifico(fontSize: 40, color: Colors.white),
             ),
             Column(
