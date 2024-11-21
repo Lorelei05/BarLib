@@ -1,10 +1,15 @@
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import '../models/producto_model.dart';
+import '../models/promocion_model.dart';
+import '../models/mesa_model.dart';
 
 class MongoService {
   static final MongoService _instance = MongoService._internal();
   late mongo.Db _db;
-  List<ProductoModel> _cachedProducts = []; // Cache de productos
+
+  List<ProductoModel> _cachedProductos = [];
+  List<PromocionModel> _cachedPromociones = [];
+  List<MesaModel> _cachedMesas = [];
 
   MongoService._internal();
 
@@ -26,22 +31,22 @@ class MongoService {
     return _db;
   }
 
+  // Funciones de Productos
   Future<List<ProductoModel>> getProductos({bool forceRefresh = false}) async {
-    if (_cachedProducts.isNotEmpty && !forceRefresh) {
-      return _cachedProducts; // Devuelve productos desde el caché
+    if (_cachedProductos.isNotEmpty && !forceRefresh) {
+      return _cachedProductos;
     }
-
     var collection = db.collection('home_producto');
     var productos = await collection.find().toList();
-    _cachedProducts =
+    _cachedProductos =
         productos.map((prod) => ProductoModel.fromJson(prod)).toList();
-    return _cachedProducts; // Guardar en caché y devolver
+    return _cachedProductos;
   }
 
   Future<void> insertProducto(ProductoModel producto) async {
     var collection = db.collection('home_producto');
     await collection.insertOne(producto.toJson());
-    _cachedProducts.clear(); // Limpiar el caché después de insertar
+    _cachedProductos.clear();
   }
 
   Future<void> updateProducto(ProductoModel producto) async {
@@ -56,12 +61,65 @@ class MongoService {
           .set('cantidad', producto.cantidad)
           .set('unidad', producto.unidad),
     );
-    _cachedProducts.clear(); // Limpiar el caché después de actualizar
+    _cachedProductos.clear();
   }
 
   Future<void> deleteProducto(mongo.ObjectId id) async {
     var collection = db.collection('home_producto');
     await collection.remove(mongo.where.eq('_id', id));
-    _cachedProducts.clear(); // Limpiar el caché después de eliminar
+    _cachedProductos.clear();
+  }
+
+  // Funciones de Promociones
+  Future<List<PromocionModel>> getPromociones(
+      {bool forceRefresh = false}) async {
+    if (_cachedPromociones.isNotEmpty && !forceRefresh) {
+      return _cachedPromociones;
+    }
+    var collection = db.collection('home_promocion');
+    var promociones =
+        await collection.find(mongo.where.eq('activo', true)).toList();
+    _cachedPromociones =
+        promociones.map((promo) => PromocionModel.fromJson(promo)).toList();
+    return _cachedPromociones;
+  }
+
+  // Funciones de Mesas
+  Future<List<MesaModel>> getMesas({bool forceRefresh = false}) async {
+    if (_cachedMesas.isNotEmpty && !forceRefresh) {
+      return _cachedMesas;
+    }
+    var collection = db.collection('Mesas_mesa');
+    var mesas = await collection.find().toList();
+    _cachedMesas = mesas.map((mesa) => MesaModel.fromJson(mesa)).toList();
+    return _cachedMesas;
+  }
+
+  Future<void> insertMesa(MesaModel mesa) async {
+    var collection = db.collection('Mesas_mesa');
+    await collection.insertOne(mesa.toJson());
+    _cachedMesas.clear();
+  }
+
+  Future<void> updateMesa(MesaModel mesa) async {
+    var collection = db.collection('Mesas_mesa');
+    await collection.updateOne(
+      mongo.where.eq('_id', mesa.id),
+      mongo.modify
+          .set('nombre', mesa.nombre)
+          .set('hora', mesa.hora)
+          .set('numero', mesa.numero)
+          .set('piso', mesa.piso)
+          .set('capacidad', mesa.capacidad)
+          .set('estado', mesa.estado)
+          .set('tipo', mesa.tipo),
+    );
+    _cachedMesas.clear();
+  }
+
+  Future<void> deleteMesa(mongo.ObjectId id) async {
+    var collection = db.collection('Mesas_mesa');
+    await collection.remove(mongo.where.eq('_id', id));
+    _cachedMesas.clear();
   }
 }

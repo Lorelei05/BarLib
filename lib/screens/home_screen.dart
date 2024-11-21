@@ -1,3 +1,4 @@
+import 'package:barmo/screens/ofer_promo.dart';
 import 'package:flutter/material.dart';
 import 'package:barmo/screens/qr_scanner.dart';
 import 'package:barmo/screens/pedido.dart';
@@ -164,8 +165,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ],
           ),
-          Center(
-              child: Text('Pantalla de Ofertas y Promociones(Registrandose)')),
+          PromocionesScreen(),
           Center(child: Text('Pantalla de QR')),
           PedidoScreen(),
           Center(child: Text('Pantalla de Registrarse')),
