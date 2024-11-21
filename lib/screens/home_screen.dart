@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen>
             icon: ImageIcon(
               AssetImage('assets/icons/icons8-mesa-de-restaurante-64.png'),
               size: 40,
-              color: Colors.black,
+              color: const Color.fromARGB(255, 255, 255, 255),
             ),
             onPressed: () {
               if (scannedTable != null && scannedFloor != null) {
