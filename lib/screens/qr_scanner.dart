@@ -89,7 +89,6 @@ class _QrScannerState extends State<QrScanner> {
             );
           } else if (barcodeCapture.barcodes.isEmpty) {
             // Si no hay códigos detectados, mostrar un mensaje
-            print("No se detectó ningún código.");
           }
         },
       ),

@@ -7,16 +7,13 @@ class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   Future<void> _navigateToHome(BuildContext context) async {
-    print("Intentando conectar a MongoDB");
     try {
       await MongoService().connect();
-      print("Conexión exitosa. Navegando a HomeScreen");
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } catch (e) {
-      print("Error al conectar con MongoDB: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error al conectar con la base de datos: $e')),
       );

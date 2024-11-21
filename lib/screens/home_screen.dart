@@ -1,3 +1,4 @@
+import 'package:barmo/screens/ofer_promo.dart';
 import 'package:flutter/material.dart';
 import 'package:barmo/screens/qr_scanner.dart';
 import 'package:barmo/screens/pedido.dart';
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen>
             icon: ImageIcon(
               AssetImage('assets/icons/icons8-mesa-de-restaurante-64.png'),
               size: 40,
-              color: Colors.black,
+              color: const Color.fromARGB(255, 255, 255, 255),
             ),
             onPressed: () {
               if (scannedTable != null && scannedFloor != null) {
@@ -164,8 +165,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ],
           ),
-          Center(
-              child: Text('Pantalla de Ofertas y Promociones(Registrandose)')),
+          PromocionesScreen(),
           Center(child: Text('Pantalla de QR')),
           PedidoScreen(),
           Center(child: Text('Pantalla de Registrarse')),
