@@ -12,7 +12,7 @@ class CategorySelector extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildCategoryItem('All', Icons.all_inclusive, Colors.blue),
+          // _buildCategoryItem('All', Icons.all_inclusive, Colors.blue),
           _buildCategoryItem('Drink', Icons.local_drink, Colors.pink),
           _buildCategoryItem('Cervezas', Icons.local_bar, Colors.amber),
           _buildCategoryItem('Snack', Icons.fastfood, Colors.orange),
