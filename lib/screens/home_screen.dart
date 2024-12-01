@@ -1,5 +1,6 @@
 import 'package:barmo/screens/login_screen.dart';
 import 'package:barmo/screens/ofer_promo.dart';
+import 'package:barmo/screens/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:barmo/screens/qr_scanner.dart';
 import 'package:barmo/screens/pedido.dart';
@@ -7,6 +8,7 @@ import 'package:barmo/controllers/mongo_service.dart';
 import 'package:barmo/widgets/category_selector.dart';
 import 'package:barmo/widgets/product_list.dart';
 import 'package:barmo/models/producto_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   final String?
@@ -63,10 +65,14 @@ class _HomeScreenState extends State<HomeScreen>
     setState(() {
       selectedCategory = category;
       _query = "";
-      _productosFiltrados = _productos.where((producto) {
-        return category == 'All' ||
-            producto.categoria.toLowerCase() == category.toLowerCase();
-      }).toList();
+      if (category == 'All') {
+        _productosFiltrados = _productos;
+      } else {
+        _productosFiltrados = _productos
+            .where((producto) =>
+                producto.categoria.toLowerCase() == category.toLowerCase())
+            .toList();
+      }
     });
   }
 
@@ -93,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen>
             ? Row(
                 children: [
                   Text(
-                    '${widget.userName}',
+                    'Hola, Bienvenido! ${widget.userName}',
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ],
@@ -141,6 +147,17 @@ class _HomeScreenState extends State<HomeScreen>
               }
             },
           ),
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.remove('userName'); // Elimina la sesión
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            },
+          ),
         ],
       ),
       body: Container(
@@ -178,7 +195,11 @@ class _HomeScreenState extends State<HomeScreen>
                 Expanded(
                   child: _productosFiltrados.isEmpty
                       ? const Center(
-                          child: Text('No se encontraron productos.'))
+                          child: Text(
+                            'Seleccione una categoría para ver los productos.',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
                       : ListView.builder(
                           itemCount: _productosFiltrados.length,
                           itemBuilder: (context, index) {
@@ -195,8 +216,41 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             const PromocionesScreen(),
             const Center(child: Text('Pantalla de QR')),
-            const PedidoScreen(),
-            LoginScreen(),
+            // Sección de Pedido con condición
+            scannedTable != null && scannedFloor != null
+                ? const PedidoScreen()
+                : Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                "Por favor, escanea la mesa antes de acceder a los pedidos."),
+                          ),
+                        );
+                      },
+                      child: Text("Escanear Mesa para acceder a los pedidos"),
+                    ),
+                  ),
+            widget.userName == null
+                ? LoginScreen()
+                : Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(20)),
+                          ),
+                          builder: (context) =>
+                              UserProfile(userName: widget.userName!),
+                        );
+                      },
+                      child: const Text('Ver Perfil'),
+                    ),
+                  ),
           ],
         ),
       ),
