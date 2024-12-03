@@ -17,6 +17,7 @@ dependencies:
   path_provider: ^2.0.11
   cached_network_image: ^3.2.1
   shared_preferences: ^2.3.3
+  crypto: ^3.0.6
 
 dev_dependencies:
   flutter_test:
@@ -32,5 +33,6 @@ flutter:
     - assets/images/alitas.jpg
     - assets/images/snacks.jpg
     - assets/images/bg.jpeg
+    - assets/images/barlib.png
     - assets/images/Cervezas.png
     - assets/icons/icons8-mesa-de-restaurante-64.png
